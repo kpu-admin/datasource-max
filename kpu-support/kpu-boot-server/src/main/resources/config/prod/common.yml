@@ -1,0 +1,17 @@
+kpu:
+  generator:
+    outputDir: /Users/lmx/gitlab/kpu-datasource-max
+    frontOutputDir: /Users/lmx/gitlab/kpu-web-pro
+    frontSoyOutputDir: /Users/lmx/gitlab/kpu-web-pro-soybean
+    frontVben5OutputDir: /Users/lmx/gitlab/kpu-web-vben-max/apps/web-antd
+    # 作者
+    author: lmx
+    # 默认项目
+    projectType: BOOT
+  system:
+    # kpu官方演示环境禁止写入
+    notAllowWrite: true
+    maxPasswordErrorNum: -1
+
+server:
+  port: 18760

@@ -1,0 +1,12 @@
+server:
+  port: 18764
+
+springdoc:
+  group-configs:
+    - group: 'generator'
+      displayName: 'generator'
+      paths-to-match: '/**'
+      packages-to-scan:
+        - cn.lmx.kpu.generator
+        - cn.lmx.kpu.test.controller
+      

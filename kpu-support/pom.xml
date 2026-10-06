@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>cn.lmx.kpu</groupId>
+        <artifactId>kpu-dependencies-parent</artifactId>
+        <version>${revision}</version>
+        <relativePath>../kpu-dependencies-parent/pom.xml</relativePath>
+    </parent>
+    <artifactId>kpu-support</artifactId>
+
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>支撑模块</description>
+
+    <modules>
+        <!-- 单体版 -->
+        <module>kpu-boot-server</module>
+        <!-- 开放平台单体版：此模块依赖 naocs、sop-gateway ，与kpu-boot-server的区别请看文档 -->
+        <module>kpu-boot-sop-server</module>
+        <!-- 定时任务执行器，启动该项目时，需要先启动 kpu-job（开源版） 或 kpu-job-pro（赞助版） -->
+        <module>kpu-job-executor</module>
+        <!-- 监控 开发环境可以不用启动 -->
+        <module>kpu-monitor</module>
+    </modules>
+
+</project>

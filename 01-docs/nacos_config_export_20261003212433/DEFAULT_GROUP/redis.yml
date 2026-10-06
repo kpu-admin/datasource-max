@@ -1,0 +1,19 @@
+kpu:
+  cache:
+    type: REDIS
+  redis:
+    # ip: 10.10.10.181
+    ip: 127.0.0.1
+    port: 16379
+    password: 'lmx123125'
+    database: 0
+spring:
+  cache:
+    type: GENERIC
+  data:  
+    redis:
+      host: ${kpu.redis.ip}
+      password: ${kpu.redis.password}
+      port: ${kpu.redis.port}
+      database: ${kpu.redis.database}
+

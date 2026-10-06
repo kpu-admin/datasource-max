@@ -1,0 +1,12 @@
+server:
+  port: 18761
+
+
+
+springdoc:
+  group-configs:
+    - group: 'oauth_auth'
+      displayName: 'oauth'
+      paths-to-match: '/**'
+      packages-to-scan: cn.lmx.kpu.oauth
+        

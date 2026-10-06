@@ -1,0 +1,71 @@
+package cn.lmx.kpu.system.manager.application.impl;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import cn.lmx.basic.base.manager.impl.SuperCacheManagerImpl;
+import cn.lmx.basic.database.mybatis.conditions.Wraps;
+import cn.lmx.basic.model.cache.CacheKeyBuilder;
+import cn.lmx.basic.utils.CollHelper;
+import cn.lmx.kpu.common.cache.tenant.application.ApplicationCacheKeyBuilder;
+import cn.lmx.kpu.model.constant.EchoApi;
+import cn.lmx.kpu.system.entity.application.DefApplication;
+import cn.lmx.kpu.system.manager.application.DefApplicationManager;
+import cn.lmx.kpu.system.mapper.application.DefApplicationMapper;
+import cn.lmx.kpu.system.vo.result.application.DefApplicationResultVO;
+
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+
+/**
+ * 应用管理
+ *
+ * @author lmx
+ * @version v1.0.0
+ * @date 2025-01-01 00:00
+ * @create [2025-01-01 00:00] [lmx] [初始创建]
+ */
+@RequiredArgsConstructor
+@Service(EchoApi.DEF_APPLICATION_SERVICE_IMPL_CLASS)
+public class DefApplicationManagerImpl extends SuperCacheManagerImpl<DefApplicationMapper, DefApplication> implements DefApplicationManager {
+
+    @Override
+    protected CacheKeyBuilder cacheKeyBuilder() {
+        return new ApplicationCacheKeyBuilder();
+    }
+
+
+    @Override
+    public Map<Serializable, Object> findByIds(Set<Serializable> ids) {
+        return CollHelper.uniqueIndex(find(ids), DefApplication::getId, DefApplication::getName);
+    }
+
+    public List<DefApplication> find(Set<Serializable> ids) {
+//         强转， 防止数据库隐式转换，  若你的id 是string类型，请勿强转
+        return findByIds(ids, null).stream().filter(Objects::nonNull).toList();
+    }
+
+    @Override
+    public List<DefApplication> findApplicationListByTenantId(Long tenantId) {
+        return tenantId == null ? Collections.emptyList() : baseMapper.findApplicationListByTenantId(tenantId);
+    }
+
+    @Override
+    public List<DefApplicationResultVO> findMyApplication(Long tenantId, String name) {
+        return baseMapper.findMyApplication(tenantId, name);
+    }
+
+    @Override
+    public List<DefApplicationResultVO> findRecommendApplication(Long tenantId, String name) {
+        return baseMapper.findRecommendApplication(tenantId, name);
+    }
+
+    @Override
+    public List<DefApplication> findGeneral() {
+        return list(Wraps.<DefApplication>lbQ().eq(DefApplication::getIsGeneral, true));
+    }
+
+}

@@ -1,0 +1,23 @@
+package cn.lmx.kpu.sdkcore.common;
+
+import com.alibaba.fastjson2.annotation.JSONField;
+import lombok.Data;
+import cn.lmx.kpu.sdkcore.util.StringUtils;
+
+/**
+ * @author lmx
+ */
+@Data
+public class Result<T> {
+    private String code;
+    private String msg;
+    private String subCode;
+    private String subMsg;
+    private T data;
+
+    @JSONField(serialize = false)
+    public boolean isSuccess() {
+        return StringUtils.isEmpty(subCode);
+    }
+
+}

@@ -1,0 +1,9 @@
+server:
+  port: 18763
+
+springdoc:
+  group-configs:
+    - group: 'system'
+      displayName: 'system'
+      paths-to-match: '/**'
+      packages-to-scan: cn.lmx.kpu.system.controller

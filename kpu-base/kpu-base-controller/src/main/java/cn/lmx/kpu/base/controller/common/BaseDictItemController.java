@@ -1,0 +1,84 @@
+package cn.lmx.kpu.base.controller.common;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import cn.lmx.basic.base.R;
+import cn.lmx.basic.base.controller.SuperController;
+import cn.lmx.basic.base.request.PageParams;
+import cn.lmx.basic.database.mybatis.conditions.query.LbQueryWrap;
+import cn.lmx.basic.database.mybatis.conditions.query.QueryWrap;
+import cn.lmx.basic.interfaces.echo.EchoService;
+import cn.lmx.basic.utils.ArgumentAssert;
+import cn.lmx.kpu.base.entity.common.BaseDict;
+import cn.lmx.kpu.base.service.common.BaseDictItemService;
+import cn.lmx.kpu.base.vo.query.common.BaseDictItemPageQuery;
+import cn.lmx.kpu.base.vo.result.common.BaseDictItemResultVO;
+import cn.lmx.kpu.base.vo.save.common.BaseDictItemSaveVO;
+import cn.lmx.kpu.base.vo.update.common.BaseDictItemUpdateVO;
+
+
+/**
+ * <p>baseDict
+ * 前端控制器
+ * 字典项
+ * </p>
+ *
+ * @author lmx
+ * @date 2025-01-01 00:00
+ */
+@Slf4j
+@Validated
+@RequiredArgsConstructor
+@RestController
+@RequestMapping("/baseDictItem")
+@Tag(name = "字典项")
+public class BaseDictItemController extends SuperController<BaseDictItemService, Long, BaseDict,
+        BaseDictItemSaveVO, BaseDictItemUpdateVO, BaseDictItemPageQuery, BaseDictItemResultVO> {
+
+    private final EchoService echoService;
+
+    @Override
+    public EchoService getEchoService() {
+        return echoService;
+    }
+
+    @Override
+    public void handlerQueryParams(PageParams<BaseDictItemPageQuery> params) {
+        ArgumentAssert.notNull(params.getModel().getParentId(), "请选择字典");
+    }
+
+    @Override
+    public QueryWrap<BaseDict> handlerWrapper(BaseDict model, PageParams<BaseDictItemPageQuery> params) {
+        QueryWrap<BaseDict> wrap = super.handlerWrapper(null, params);
+        LbQueryWrap<BaseDict> wrapper = wrap.lambda();
+        wrapper.eq(BaseDict::getParentId, model.getParentId())
+                .like(BaseDict::getKey, model.getKey())
+                .like(BaseDict::getName, model.getName())
+                .in(BaseDict::getClassify, params.getModel().getClassify())
+                .in(BaseDict::getState, params.getModel().getState());
+        return wrap;
+    }
+
+    @Parameters({
+            @Parameter(name = "id", description = "ID", schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "dictId", description = "字典ID", required = true, schema = @Schema(type = "long"), in = ParameterIn.QUERY),
+            @Parameter(name = "key", description = "字典标识", required = true, schema = @Schema(type = "string"), in = ParameterIn.QUERY),
+    })
+    @Operation(summary = "检测字典项标识是否可用", description = "检测字典项标识是否可用")
+    @GetMapping("/check")
+    public R<Boolean> check(@RequestParam String key, @RequestParam Long dictId, @RequestParam(required = false) Long id) {
+        return success(superService.checkItemByKey(key, dictId, id));
+    }
+
+}
