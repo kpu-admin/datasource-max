@@ -75,3 +75,27 @@ server:
   port: 18760
   servlet:
     context-path: /api
+
+
+nextdoc4j:
+  enabled: true
+  auth:
+    enabled: true
+    password: kpu
+  gateway:
+    auto-discovery: true
+    # 读取各服务 /v3/api-docs/swagger-config，聚合所有分组（替代原 OpenApi3Controller）
+    service-swagger-config-enabled: true
+    # 必须按网关实际路由 id 填写，否则无关服务也会被聚合 —— 请核对你的路由 id
+    include-patterns:
+      - base
+      - system
+      - oauth
+      - generator
+      - sopadmin
+    name-mappings:
+      base: 基础服务
+      system: 系统服务
+      oauth: 认证服务
+      generator: 代码生成器
+      sopadmin: 开放平台

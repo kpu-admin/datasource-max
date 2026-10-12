@@ -52,7 +52,7 @@ public enum DefTenantRegisterTypeEnum implements BaseEnum {
     }
 
     @Override
-    @Schema(description = "编码", allowableValues = "CREATE,REGISTER", example = "CREATE")
+    @Schema(description = "编码", allowableValues = {"CREATE", "REGISTER"}, example = "CREATE")
     public String getCode() {
         return this.name();
     }

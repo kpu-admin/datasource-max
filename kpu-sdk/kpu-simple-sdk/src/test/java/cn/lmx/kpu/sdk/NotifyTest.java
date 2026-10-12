@@ -44,7 +44,7 @@ public class NotifyTest extends TestCase {
         model.setName("我要新增一个用户");
         param.setBizModel(model);
         // 这里提供了 kpu-openapi-server 的一个接口地址作为测试
-        param.setNotifyUrl("http://localhost:18760/notify/callback22");
+        param.setNotifyUrl("http://localhost:18766/notify/callback22");
 
         // 发送请求
         Result<GetBaseEmployeeResponse> result = client.execute(param);

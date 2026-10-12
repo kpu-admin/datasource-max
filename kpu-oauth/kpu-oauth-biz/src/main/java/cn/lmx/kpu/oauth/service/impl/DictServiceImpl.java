@@ -6,7 +6,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
-import com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler;
+import com.baomidou.mybatisplus.core.toolkit.EnumUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +55,7 @@ public class DictServiceImpl implements DictService {
     /**
      * 过滤那些枚举
      */
-    private static final Predicate<Class<?>> CLASS_FILTER = item -> item != null && item.isEnum() && MybatisEnumTypeHandler.isMpEnums(item);
+    private static final Predicate<Class<?>> CLASS_FILTER = item -> item != null && item.isEnum() && EnumUtils.isMpEnums(item);
     private final BaseDictManager baseDictManager;
     private final DefDictManager defDictManager;
     private final EchoProperties echoProperties;
